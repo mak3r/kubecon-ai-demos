@@ -49,7 +49,7 @@ const uint16_t POSITION_MIDDLE = 0x05C0;
 const uint16_t POSITION_WRIST_OPEN_CW = 0x1F4;
 const uint16_t POSITION_WRIST_OPEN_CCW = 0x0960;
 const uint16_t POINTER_POS = POSITION_CLOSED;
-const uint8_t RELAX_DELAY = .6; //Delay in seconds between extend and relax 
+const uint16_t RELAX_DELAY = 200; //Delay in milliseconds between extend and relax 
 
 // Servo signatures
 // Indexes into the servo signatures
@@ -286,8 +286,8 @@ void lonely() {
       break;
     case 3:      
       run_count = 8;
-      run_delay = 400;
-          win();
+      run_delay = 5;
+      win();
       break;
     case 4:
       reset_count_and_delay();
@@ -333,7 +333,7 @@ void loop() {
     } else if (cmd == 4) {
       //Winner
       run_count = 8;
-      run_delay = 500;
+      run_delay = 5;
       win();
     } else if (cmd == 5) {
       //Lose
@@ -350,10 +350,11 @@ void loop() {
   }
 
   if (run_count > 0) {
+    previousMillis = currentMillis;
     win();
     cur_state = RUN;
     run_count--;
-    run_delay = 500;
+    //run_delay = 50;
   }
 
   if (cur_state == RUN) {
